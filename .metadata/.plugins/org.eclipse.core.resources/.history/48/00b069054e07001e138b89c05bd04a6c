@@ -1,0 +1,5 @@
+package com.exercise.exer.question;
+//화면에서 전달되는 입력 값을 검증
+public class QuestionForm {
+
+}

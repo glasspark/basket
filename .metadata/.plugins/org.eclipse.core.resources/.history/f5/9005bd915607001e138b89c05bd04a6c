@@ -1,0 +1,55 @@
+package com.exercise.exer.question;
+//스프링에서 데이터 처리를 위해 작성하는 클래스. 컨트롤러에서 리포지터리 직접 호출하지 않음.
+
+import java.awt.print.Pageable;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
+import com.exercise.exer.DataNotFoundException;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@Service
+	
+public class QuestionService {
+
+	private final QuestionRepository questionRepository;
+
+	 public Page<Question> getList(int page) {
+	    	List<Sort.Order> sorts = new ArrayList<>();
+	        sorts.add(Sort.Order.desc("createDate"));
+	        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+	        return this.questionRepository.findAll(pageable);
+	    }
+
+	//일치하는 값이 없다면 실행 예외를 발생시킨다. 
+	public Question getQuestion(Integer id) {
+		Optional<Question> question = this.questionRepository.findById(id);
+		if (question.isPresent()) {// isPresent() 값이 존재하는지 확인
+			return question.get();
+		} else {
+			throw new DataNotFoundException("question not found");
+			// DataNotFoundException 클래스의 인스턴스를 생성하고(new), 해당 예외 객체를 던짐
+			// 이 예외 처리를 하기 위해서 DataNotFoundException.java 생성
+		}
+	}
+	
+	public void create(String subject, String content) {
+        Question q = new Question();
+        q.setSubject(subject);
+        q.setContent(content);
+        q.setCreateDate(LocalDateTime.now());
+        this.questionRepository.save(q);
+    }
+	
+	
+	
+	 
+
+}

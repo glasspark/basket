@@ -1,0 +1,8 @@
+package com.mysite.user;
+
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+public class UserSecurityService implements UserDetailsService  {
+
+	  private final UserRepository userRepository;
+}

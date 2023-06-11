@@ -1,0 +1,10 @@
+package com.mysite.product;
+
+@Getter
+@Setter
+public class ProductForm {
+
+	  @NotEmpty(message="숫자를 입력해 주세요")
+	
+	
+}

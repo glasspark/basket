@@ -1,0 +1,18 @@
+<h2>상품 주문</h2>
+
+
+
+<a th:text="${product.product_id}"></a>
+<a th:text="${product.product_name}"></a>
+<a th:text="${product.product_detal}"></a>
+<a th:text="${product.price}"></a>
+<a th:text="${product.stack}"></a>
+
+
+<form th:action="@{|/product/detail/${product.product_id}/order|}">
+
+	<input type="text" id="pd_count" name="pd_count" required="required">
+	<button type="submit">주문하기</button>
+</form>
+
+이제 주문하면 해당 갯수만큼 수량이 빠지도록 설정한다. 

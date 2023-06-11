@@ -1,0 +1,9 @@
+package com.mysite.user;
+
+
+@RequiredArgsConstructor
+@Controller
+@RequestMapping("/user")
+public class UserController {
+
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;com.exercise.exer.HelloLombook&apos; to &apos;HelloLombok&apos;&#x0D;&#x0A;- Original project: &apos;exercise&apos;&#x0D;&#x0A;- Original element: &apos;com.exercise.exer.HelloLombook&apos;&#x0D;&#x0A;- Renamed element: &apos;com.exercise.exer.HelloLombok&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;HelloLombook&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src\/main\/java=/gradle_scope=/main=/=/gradle_used_by_scope=/main,test=/&lt;com.exercise.exer{HelloLombook.java[HelloLombook" matchStrategy="1" name="HelloLombok" qualified="false" references="true" similarDeclarations="false" stamp="1686109335336" textual="false" version="1.0"/>
+</session>

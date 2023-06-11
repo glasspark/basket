@@ -1,0 +1,17 @@
+package com.mysite.cart_item;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@RequestMapping("/cartItem")
+@Controller
+public class Cart_item_Controller {
+
+	@GetMapping(value = "/add/{product_id}/{requestedQuantity}")
+	public String add() {}
+	
+
+	
+	
+}

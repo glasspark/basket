@@ -1,0 +1,10 @@
+package com.mysite.user;
+
+
+
+@Service
+public class UserService {
+
+	private final UserRepository userRepository;
+	
+}

@@ -1,0 +1,18 @@
+package com.exercise.exer.answer;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import lombok.RequiredArgsConstructor;
+
+@RequestMapping("/answer")
+@RequiredArgsConstructor
+@Controller
+public class AnswerController {
+
+	
+	
+	
+	
+	
+}

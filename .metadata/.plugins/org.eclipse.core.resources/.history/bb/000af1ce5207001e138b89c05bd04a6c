@@ -1,0 +1,8 @@
+package com.exercise.exer.answer;
+
+
+@Getter
+@Setter
+public class AnswerForm {
+
+}

@@ -1,0 +1,19 @@
+package com.mysite.cart_item;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@Service
+public class Cart_item_Service {
+
+	private final Cart_itemRepository cart_itemRepository;
+
+	public List<Cart_item> getList() {
+		return this.cart_itemRepository.findAll();
+	}
+
+}

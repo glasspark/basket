@@ -1,0 +1,6 @@
+ <!-- 회원가입 템플릿을 작성 http://localhost:8081/signup/form -->
+ 
+ <html layout:decorate="~{layout}">
+ <div layout:fragment="content" class="container my-3">
+ </div>
+ </html>

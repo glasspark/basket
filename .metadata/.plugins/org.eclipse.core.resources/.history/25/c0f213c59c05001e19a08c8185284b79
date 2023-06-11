@@ -1,0 +1,32 @@
+package com.exercise.exer;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.exercise.exer.question.Question;
+import com.exercise.exer.question.QuestionRepository;
+
+@SpringBootTest
+class ExerciseApplicationTests {
+
+	//@Autowired 애너테이션은 스프링의 DI 기능으로 questionRepository 객체를 스프링이 자동으로 생성
+	@Autowired
+	private QuestionRepository questionRepository;
+
+	@Test
+	void testJpa() {
+		List<Question> all = this.questionRepository.findAll();
+		assertEquals(2,	all.size());
+		
+		 Question q = all.get(0);
+		  assertEquals("sbb가 무엇인가요?", q.getSubject());
+
+	}
+
+}

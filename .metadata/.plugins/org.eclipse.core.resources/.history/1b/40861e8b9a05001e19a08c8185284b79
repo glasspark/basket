@@ -1,0 +1,5 @@
+package com.exercise.exer.answer;
+
+public interface AnswerRepository extends JpaRepository<Answer, Integer> {
+
+}

@@ -1,0 +1,5 @@
+package com.mysite.cart_item;
+
+public class Cart_item_Controller {
+	private final Cart_item_Service cart_item_Service;
+}

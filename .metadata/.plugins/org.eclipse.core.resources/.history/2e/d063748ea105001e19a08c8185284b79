@@ -1,0 +1,34 @@
+package com.exercise.exer;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.exercise.exer.answer.AnswerRepository;
+import com.exercise.exer.question.Question;
+
+@SpringBootTest
+class ExerciseApplicationTests {
+
+	// @Autowired 애너테이션은 스프링의 DI 기능으로 answerRepository 객체를 스프링이 자동으로 생성
+	@Autowired
+    private AnswerRepository answerRepository;
+	
+	  @Autowired
+	    private QuestionRepository questionRepository;
+
+	@Test
+	void testJpa() {
+		  Optional<Question> oq = this.questionRepository.findById(2);
+	        assertTrue(oq.isPresent());
+	        Question q = oq.get();
+		
+		
+		
+	}
+
+}

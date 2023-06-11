@@ -1,0 +1,31 @@
+package com.exercise.exer.answer;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.exercise.exer.question.Question;
+import com.exercise.exer.question.QuestionService;
+
+import ch.qos.logback.core.model.Model;
+import lombok.RequiredArgsConstructor;
+
+@RequestMapping("/answer")
+@RequiredArgsConstructor
+@Controller
+public class AnswerController {
+
+	private final QuestionService questionService;
+	private final AnswerService answerService;
+
+	@PostMapping("/create/{id}")
+	public String createAnswer(Model model, @PathVariable("id") Integer id, @RequestParam String content) {
+		Question question = this.questionService.getQuestion(id);
+		 this.answerService.create(question, content);
+		return String.format("redirect:/question/detail/%s", id);//%s 문자열
+		//format = 문자열을 형식화 한다.
+	}
+
+}

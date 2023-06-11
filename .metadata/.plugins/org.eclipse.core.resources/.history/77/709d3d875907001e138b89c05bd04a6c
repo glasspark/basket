@@ -1,0 +1,23 @@
+package com.mysite.cart_item;
+
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import ch.qos.logback.core.model.Model;
+
+
+@Controller
+public class Cart_item_Controller {
+
+	private final Cart_item_Service cart_item_Service;
+
+	
+	
+	
+		
+		
+	}
+
+}

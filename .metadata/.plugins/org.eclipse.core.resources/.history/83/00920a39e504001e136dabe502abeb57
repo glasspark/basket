@@ -1,0 +1,8 @@
+package com.exercise.exer;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+public class HelloLombook {
+
+}

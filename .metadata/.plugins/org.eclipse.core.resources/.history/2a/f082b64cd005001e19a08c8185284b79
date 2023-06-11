@@ -1,0 +1,7 @@
+package com.exercise.exer.answer;
+
+@RequiredArgsConstructor
+@Service
+public class AnswerService {
+
+}

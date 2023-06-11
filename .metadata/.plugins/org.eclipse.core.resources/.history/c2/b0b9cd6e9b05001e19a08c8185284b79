@@ -1,0 +1,29 @@
+package com.exercise.exer;
+
+import java.time.LocalDateTime;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.exercise.exer.question.Question;
+import com.exercise.exer.question.QuestionRepository;
+
+@SpringBootTest
+class ExerciseApplicationTests {
+
+	@Autowired
+	private QuestionRepository questionRepository;
+
+	@Test
+	void testJpa() {
+		// Question.java에서 한 게터, 세터 이용
+		Question q1 = new Question();
+		q1.setSubject("sbb란 무엇인가요?");
+		q1.setContent("sbb에 대해서 알고 싶습니다.");
+		q1.setCreateDate(LocalDateTime.now());
+		this.questionRepository.save(q1);
+
+	}
+
+}

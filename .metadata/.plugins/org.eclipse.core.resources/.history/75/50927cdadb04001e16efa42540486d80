@@ -1,0 +1,22 @@
+package com.mysite.cart_item;
+
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
+
+import ch.qos.logback.core.model.Model;
+
+public class Cart_item_Controller {
+
+	private final Cart_item_Service cart_item_Service;
+
+	@GetMapping("/list")
+	public String list(Model model) {
+		List<Cart_item> cart_item = this.cart_item_Service.getList();
+		 ((Object) model).addAttribute("cart_item_Service", cart_item_Service);
+		return "cart_item";
+		
+	
+	}
+
+}
