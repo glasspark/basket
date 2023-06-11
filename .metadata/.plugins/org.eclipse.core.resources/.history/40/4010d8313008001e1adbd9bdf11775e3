@@ -1,0 +1,18 @@
+package com.mysite.cart_item;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@RequestMapping("/cartItem")
+@Controller
+public class Cart_item_Controller {
+	
+	private final Cart_item_Controller cart_item_Controller;
+
+		
+		
+		
+	
+
+}
+
