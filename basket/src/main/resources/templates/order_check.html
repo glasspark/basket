@@ -32,17 +32,16 @@
 		</tbody>
 	</table>
 	<!-- <a th:href="@{|/product/complete/${product.product_id}/${requestedQuantity}|}">주문확정</a> -->
-	
+
 	<button type="button"
 		th:onclick="|window.location.href='/product/complete/${product.product_id}/${requestedQuantity}'|">주문확정</button>
-	
-	<button type="button"
-		th:onclick="|window.location.href='/cartItem/add/${product.product_id}/${requestedQuantity}'|">장바구니 담기</button>
-	
 
-	
+	<button type="button"
+		th:onclick="|window.location.href='/cart/addCart/${product.product_id}/${requestedQuantity}'|">장바구니
+		담기</button>
 
 </div>
+
 
 
 

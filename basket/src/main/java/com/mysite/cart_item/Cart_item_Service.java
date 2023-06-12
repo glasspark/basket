@@ -20,14 +20,20 @@ public class Cart_item_Service {
 		return this.cart_itemRepository.findAll();
 	}
 
+	//카트에 아이템을 저장한다
 	public Cart_item addCartItem(Integer count, Product product, Cart cart) {
 		Cart_item cart_item = new Cart_item();
 		cart_item.setCount(count);
 		cart_item.setProduct(product);
-		cart_item.setCart(cart); // 얘는 따로 처리를 해야할듯?
+		cart_item.setCart(cart); 
 
 		this.cart_itemRepository.save(cart_item);
 		return cart_item;
 	}
+	
+	
+	
+	
+	
 
 }

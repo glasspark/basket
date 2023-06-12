@@ -1,9 +1,0 @@
-<h2>주문을 확인해 주세요</h2>
-<div th:text="${message}"></div>
-
-<ul>
-	<li th:text="${product.product_name}"></li>
-	<!-- <li th:text="${#numbers.formatCurrency(product.price)}"></li> -->
-
-</ul>
-

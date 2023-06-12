@@ -24,7 +24,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 	
 	
-	 implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	 
 	//mysql 설치 입력 코드 변경되어서 이렇게 해야한다...!
  	 runtimeOnly 'com.mysql:mysql-connector-j'
@@ -37,7 +37,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
 	//스프링 시큐리티
-	  implementation 'org.springframework.boot:spring-boot-starter-security'
+	 implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
 
 }
