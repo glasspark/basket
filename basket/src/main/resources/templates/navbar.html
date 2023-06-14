@@ -16,8 +16,11 @@
 					th:href="@{/user/logout}">로그아웃</a>
 				<li class="nav-item"><a class="nav-link"
 					th:href="@{/user/signup}">회원가입</a></li>
+
+				<!-- isAuthenticated() 으로 로그인 한 사람만이 장바구니 목록 버튼이 생긴다. -->
 				<li class="nav-item"><a class="nav-link"
-					th:href="@{/cart_item/itemList}">장바구니목록</a></li>
+					sec:authorize="isAuthenticated()" th:href="@{/cart_item/itemList}">장바구니목록
+				</a></li>
 			</ul>
 		</div>
 	</div>

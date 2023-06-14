@@ -1,30 +1,46 @@
 <html layout:decorate="~{layout}">
 
 <div layout:fragment="content" class="container my-3">
-	<h2>장바구니 리스트(확인용)</h2>
 
+	<div>
+		<h1>
+			<span th:text="${username}" style="color: blue;"></span>님의 장바구니
+		</h1>
+		<h1>
+			해당 장바구니의 수량은 <span th:text="${cartCount}"></span>개 입니다.
+		</h1>
+		<hr>
+		<h3>장바구니 목록</h3>
 
-	<table class="table">
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">상품</th>
+					<th scope="col">상품 갯수</th>
+					<th scope="col">상품금액</th>
+					<th scope="col">총 금액</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="cartItem : ${cartItemList}"
+					th:if="${cartItem.cart.cart_id == cartUser}" scope="row">
+					<td th:text="${cartItem.product.product_name}"></td>
+					<td th:text="${cartItem.count}"></td>
+					<!-- <td th:text="${cartItem.product.price}"></td> -->
+					<td
+						th:text="${#numbers.formatInteger((cartItem.product.price), 4, 'COMMA')}"></td>
+					<!--<td th:text="${cartItem.count * cartItem.product.price}"></td>-->
+					<td
+						th:text="${#numbers.formatInteger((cartItem.count * cartItem.product.price), 4, 'COMMA')}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 
-		<thead>
-			<tr>
-				<th scope="col">장바구니ID</th>
-				<th scope="col">상품 갯수</th>
-				<th scope="col">상품 번호</th>
-				<th scope="col">카트 번호</th>
-			</tr>
-		</thead>
-
-		<tbody>
-			<tr th:each="item : ${cartItemList}"  scope="row">
-				<td th:text="${item.cart_product_id}"></td>
-				<td th:text="${item.count}"></td>
-				<td th:text="${item.product.product_id}"></td>
-				<td th:text="${item.cart.cart_id}"></td>
-			</tr>
-		</tbody>
-	</table>
-
-
+<!-- Cart_item_Controller 예외처리 추후 수정필요 -->
+	<script th:if="${errorMessage != null}">
+		alert("[[${errorMessage}]]");
+		history.back();
+	</script>
 </div>
 </html>

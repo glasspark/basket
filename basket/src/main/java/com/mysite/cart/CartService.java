@@ -21,8 +21,8 @@ public class CartService {
 
 	}
 
+	//user의 카트 번호를 가져온다. 
 	public Integer getCartIdByUsername(User user) {
-
 		Optional<Cart> cart = cartRepository.findByUser(user);
 		if (cart.isPresent()) {
 			return cart.get().getCart_id();
@@ -31,28 +31,28 @@ public class CartService {
 		return null;
 	}
 
-	public Cart getUserCartId(Integer userId) {
-		return cartRepository.findById(userId).orElse(null);
+	public Cart getUserCartId(Integer userID) {
+		return cartRepository.findById(userID).orElse(null);
 	}
 
-	// !! 여기에 조건을 걸어야 하나..?
-	// 카트를 추가하는 것 (여기서 중복시 혹은 장바구니 없을 시 생성하는 코드 작성)
-	// public Cart addCart(User user)
-	public void addCart(User user) {
+	//유저의 카트 생성
+	public void addCart(User user, int count) {
 
+		// 카트에 해당 유저의 아이디가 있는지 확인
 		Optional<Cart> findCart = cartRepository.findByUser(user);
-		// 만약 유저에게 장바구니가 존재하지 않는다면 생성해준다.   
-		if (!findCart.isPresent()) { 
+
+		// 만약 유저에게 장바구니가 존재하지 않는다면 생성해준다.
+		if (!findCart.isPresent()) {
 			Cart cart = new Cart();
-			// cart.setCount(count);
-			cart.setUser(user);
-			this.cartRepository.save(cart);
-
+			cart.setCount(count);
+			cart.setUser(user); // 유저 객체
+			this.cartRepository.save(cart); // 저장
+		} else {
+			// 카트가 존재한다면 카트를 가져와서 수량을 추가
+			Cart cart = findCart.get();
+			cart.setCount(cart.getCount() + count);// 수량 추가
+			this.cartRepository.save(cart); // 저장
 		}
-
-		// 유저에게 장바구니가 있고 상품이 존재하지 않는다면 상품을 추가해준다.
-
-		// 유저에게 장바구니가 있고 상품이 있는 경우라면 상품을 업데이트 해준다.
 
 	}
 }

@@ -31,26 +31,17 @@ public class UserService {
 
 	}
 
-	public User getUser(String username) {
-		Optional<User> user = this.userRepository.findByusername(username);
-		if (user.isPresent()) {
-			return user.get();
-		}
-		return null;
+	// 해당 username을 이력 받아서 name을 찾고 객체로 저장한다.
+	public User getUserIdByUsername(String username) {
+		Optional<User> userOptional = userRepository.findByusername(username);
+		return userOptional.orElse(null); // 사용자 정보가 없을 경우 null 반환}
+
 	}
 
-	// 해당 username의 입력받아서 pk인 userID를 받게된다.
-	public Long getUserIdByUsername(String username) {
-		Optional<User> user = userRepository.findByusername(username);
-		if (user != null) {
-			return user.get().getUser_id();
-		}
-		return null; // 사용자 정보가 없을 경우
-	}
-
-	// 위에 Long의 형태인 것을 User로 변경한다.
-	public User getUserById(Long userId) {
-		return userRepository.getReferenceById(userId);
-	}
+	/*
+	 * // 위에 있는 user을 조회하여 해당 user에 대한 정보를 담음 public User getUser(Long userID) {
+	 * Optional<User> userOptional = userRepository.findById(userID); return
+	 * userOptional.orElse(null); }
+	 */
 
 }

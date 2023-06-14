@@ -1,7 +1,0 @@
-package com.mysite.user;
-
-public class UserService {
-
-	private final UserRepository userRepository;
-	
-}

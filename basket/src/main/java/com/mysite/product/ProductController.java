@@ -31,6 +31,7 @@ public class ProductController {
 
 	}
 
+	//해당 product_id 상품에 대한 리스트를 보여준다.
 	@GetMapping(value = "/detail/{product_id}")
 	public String detail(Model model, @PathVariable("product_id") Long product_id) {
 		Product product = this.productService.getProduct(product_id);
@@ -38,7 +39,8 @@ public class ProductController {
 		return "product_detail";
 	}
 
-	//해당 제품의 수량 확인
+	
+	// 해당 제품의 수량 확인
 	@GetMapping(value = "/detail/{product_id}/order")
 	public String ordercheck(Model model, @PathVariable("product_id") Long product_id,
 			@RequestParam("pd_count") String pd_count) {
@@ -61,7 +63,7 @@ public class ProductController {
 		return "order_check";
 	}
 
-	//주문을 하면 수량이 줄어들도록 설정함
+	// 주문을 하면 수량이 줄어들도록 설정함
 	@GetMapping(value = "/complete/{product_id}/{requestedQuantity}")
 	public String complete(@PathVariable("product_id") Long product_id,
 			@PathVariable("requestedQuantity") Integer requestedQuantity) {

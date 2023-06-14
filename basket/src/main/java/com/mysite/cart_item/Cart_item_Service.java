@@ -1,6 +1,7 @@
 package com.mysite.cart_item;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -20,20 +21,30 @@ public class Cart_item_Service {
 		return this.cart_itemRepository.findAll();
 	}
 
-	//카트에 아이템을 저장한다
-	public Cart_item addCartItem(Integer count, Product product, Cart cart) {
+	// Cart와 연관된 Cart_item을 조회
+	public Optional<Cart_item> getCartItemByCart(Cart cart) {
+		return cart_itemRepository.findByCart(cart);
+	}
+
+	// 카트에 아이템을 저장한다
+	public Cart_item addCartItem(Integer count, Product product, Cart cartId) {
+		// 장바구니에 상품이 있는지 없는지 확인
+		Cart_item findCartIdAndProduct = cart_itemRepository.findByCartAndProduct(cartId, product);
+
+		// 상품이 있고 수량이 있다면
+		if (findCartIdAndProduct != null) {
+			findCartIdAndProduct.setCount(findCartIdAndProduct.getCount() + count);
+			cart_itemRepository.save(findCartIdAndProduct);
+			return findCartIdAndProduct;
+		}
+
 		Cart_item cart_item = new Cart_item();
 		cart_item.setCount(count);
 		cart_item.setProduct(product);
-		cart_item.setCart(cart); 
+		cart_item.setCart(cartId);
 
 		this.cart_itemRepository.save(cart_item);
 		return cart_item;
 	}
-	
-	
-	
-	
-	
 
 }

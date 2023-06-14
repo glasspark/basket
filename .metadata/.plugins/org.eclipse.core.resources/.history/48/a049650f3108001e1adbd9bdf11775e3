@@ -1,7 +1,0 @@
-package com.mysite.cart;
-
-public class CartService {
-
-	private final CartRepository cartRepository;
-	
-}
