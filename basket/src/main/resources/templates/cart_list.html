@@ -11,10 +11,11 @@
 		</h1>
 		<hr>
 		<h3>장바구니 목록</h3>
-
-		<table class="table">
+		<!-- class="table" -->
+		<table>
 			<thead>
 				<tr>
+					<th scope="col">장바구니이름</th>
 					<th scope="col">상품</th>
 					<th scope="col">상품 갯수</th>
 					<th scope="col">상품금액</th>
@@ -24,23 +25,83 @@
 			<tbody>
 				<tr th:each="cartItem : ${cartItemList}"
 					th:if="${cartItem.cart.cart_id == cartUser}" scope="row">
-					<td th:text="${cartItem.product.product_name}"></td>
-					<td th:text="${cartItem.count}"></td>
-					<!-- <td th:text="${cartItem.product.price}"></td> -->
+
+					<td th:text="${cartItem.cart_product_id}" class="cart_product_id"></td>
+
+					<td th:text="${cartItem.product.product_name}" class="product_name"></td>
+
+					<td><input type="number" th:value="${cartItem.count}"
+						class="count"></td>
+
 					<td
-						th:text="${#numbers.formatInteger((cartItem.product.price), 4, 'COMMA')}"></td>
-					<!--<td th:text="${cartItem.count * cartItem.product.price}"></td>-->
-					<td
-						th:text="${#numbers.formatInteger((cartItem.count * cartItem.product.price), 4, 'COMMA')}"></td>
+						th:text="${#numbers.formatInteger((cartItem.product.price), 4, 'COMMA')}"
+						class="price"></td>
+
+					<td class="totalPrice"></td>
+					<!-- 					<td
+						th:text="${#numbers.formatInteger((cartItem.count * cartItem.product.price), 4, 'COMMA')}"></td> -->
 				</tr>
 			</tbody>
 		</table>
 	</div>
 
-<!-- Cart_item_Controller 예외처리 추후 수정필요 -->
+	<!-- Cart_item_Controller 예외처리 추후 수정필요 -->
 	<script th:if="${errorMessage != null}">
 		alert("[[${errorMessage}]]");
 		history.back();
 	</script>
+
+
+
+	<script>
+		$(function() {
+			$('.count').on('change', function() {
+				var count = $(this).val();
+				var row = $(this).closest('tr');
+
+				var priceElement = row.find('.price');
+				var priceText = priceElement.text();
+				var price = parseInt(priceText.replace(/[^0-9.-]+/g, ""));
+
+				var cartElement = row.find('.cart_product_id');
+				var cart_product_id = cartElement.text();
+
+				/* 토큰 권한 설정 */
+				var header = $("meta[name='_csrf_header']").attr('content');
+				var token = $("meta[name='_csrf']").attr('content');
+
+				// AJAX 요청 보내기
+				$.ajax({
+					url : '/cart_item/updateCount',
+					method : 'POST',
+					dataType : 'json',
+					data : {
+						"cart_product_id" : cart_product_id,
+						"count" : count
+					},
+					beforeSend : function(xhr) { /* 토큰 먼저 보내고 권한 받아야함 */
+						xhr.setRequestHeader(header, token);
+					},
+					success : function(result) {
+						// 요청 성공 시 실행할 코드
+						var totalPriceElement = row.find('.totalPrice'); // 해당 행의 totalPrice 엘리먼트 선택
+						var totalPrice = count * price;
+						totalPriceElement.text(totalPrice); // 값을 변경하여 출력
+
+						console.log('AJAX 요청 성공');
+						console.log(result);
+					},
+					error : function(xhr, status, error) {
+						// 요청 실패 시 실행할 코드
+						console.log('AJAX 요청 실패');
+						console.log(xhr.responseText);
+					}
+				});
+
+			});
+		});
+	</script>
+
+
 </div>
 </html>

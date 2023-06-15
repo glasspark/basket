@@ -38,10 +38,4 @@ public class UserService {
 
 	}
 
-	/*
-	 * // 위에 있는 user을 조회하여 해당 user에 대한 정보를 담음 public User getUser(Long userID) {
-	 * Optional<User> userOptional = userRepository.findById(userID); return
-	 * userOptional.orElse(null); }
-	 */
-
 }

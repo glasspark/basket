@@ -46,7 +46,7 @@ public class CartController {
 		// 해당 user_id의 cart_id를 가져온다.
 		Cart CartId = this.cartService.getUserCartId(cartUser);
 
-		// 카트 아이디를 가져와야 한다.
+		// 카트 아이디가져와서 카트에 담음
 		this.cart_item_Service.addCartItem(count, product, CartId);
 
 		return "redirect:/product/list";

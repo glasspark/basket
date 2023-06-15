@@ -1,8 +1,0 @@
-package com.exercise.exer.question;
-
-import lombok.Getter;
-
-@Getter
-public class Question {
-
-}

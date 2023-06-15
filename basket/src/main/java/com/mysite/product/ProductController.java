@@ -16,22 +16,17 @@ import lombok.RequiredArgsConstructor;
 @Controller
 public class ProductController {
 
-	// private final ProductRepository productRepository;
-
-	// ↓↓ productService에서 서비스와 한거 가져옴 아래 getList()방식으로 사용한다. i
 	private final ProductService productService;
 
-	@GetMapping("/list") // 이 경로에 get요청 오면 실행
+	@GetMapping("/list")
 	public String list(Model model) {
-		// List<Product> productList = this.productRepository.findAll();
 		List<Product> productList = this.productService.getList();
-		// "productList" = 키(이름지정) | productList =값(위의 List<Product> productList)
-		model.addAttribute("productList", productList);// 이제 다른데서 참조하여 사용가능
+		model.addAttribute("productList", productList);
 		return "product_List";
 
 	}
 
-	//해당 product_id 상품에 대한 리스트를 보여준다.
+	// 해당 product_id 상품에 대한 리스트를 보여준다.
 	@GetMapping(value = "/detail/{product_id}")
 	public String detail(Model model, @PathVariable("product_id") Long product_id) {
 		Product product = this.productService.getProduct(product_id);
@@ -39,12 +34,12 @@ public class ProductController {
 		return "product_detail";
 	}
 
-	
-	// 해당 제품의 수량 확인
+	// 해당 제품의 수량 확인 및 입력값 검가
 	@GetMapping(value = "/detail/{product_id}/order")
 	public String ordercheck(Model model, @PathVariable("product_id") Long product_id,
 			@RequestParam("pd_count") String pd_count) {
 		Product product = this.productService.getProduct(product_id); // 제품 아이디 가져온다.
+
 
 		// 주문 가능 여부를 확인
 		int availableQuantity = product.getStack(); // 재고
@@ -52,9 +47,9 @@ public class ProductController {
 
 		Integer message;
 		if (availableQuantity >= requestedQuantity) {
-			message = 1;
-		} else {
-			message = 2;
+			message = 1; // 주문, 장바구니 가능
+		} else { 
+			message = 2; // 불가능
 		}
 
 		model.addAttribute("product", product);

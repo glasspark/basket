@@ -12,8 +12,8 @@
 
 
 	<form th:action="@{|/product/detail/${product.product_id}/order|}">
-
-		<input type="text" id="pd_count" name="pd_count" required="required">
+		<!-- <input type="text" id="pd_count" name="pd_count" required="required"> -->
+		 <input type="number" id="pd_count" name="pd_count" min="1" value="1">
 		<button type="submit">주문하기</button>
 	</form>
 

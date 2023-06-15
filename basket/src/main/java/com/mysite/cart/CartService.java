@@ -23,7 +23,7 @@ public class CartService {
 
 	//user의 카트 번호를 가져온다. 
 	public Integer getCartIdByUsername(User user) {
-		Optional<Cart> cart = cartRepository.findByUser(user);
+		Optional<Cart> cart = cartRepository.findByUser(user); 
 		if (cart.isPresent()) {
 			return cart.get().getCart_id();
 		}

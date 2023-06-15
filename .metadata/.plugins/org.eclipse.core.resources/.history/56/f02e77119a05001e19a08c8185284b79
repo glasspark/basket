@@ -1,5 +1,0 @@
-package com.exercise.exer.question;
-
-public interface QuestionRepository extends JpaRepository<Question, Integer> {
-
-}

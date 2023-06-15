@@ -31,7 +31,7 @@ public class Cart_item_Service {
 		// 장바구니에 상품이 있는지 없는지 확인
 		Cart_item findCartIdAndProduct = cart_itemRepository.findByCartAndProduct(cartId, product);
 
-		// 상품이 있고 수량이 있다면
+		// 상품이 있고 수량이 있다면 cart에 수량을 증가시킨다
 		if (findCartIdAndProduct != null) {
 			findCartIdAndProduct.setCount(findCartIdAndProduct.getCount() + count);
 			cart_itemRepository.save(findCartIdAndProduct);
@@ -45,6 +45,20 @@ public class Cart_item_Service {
 
 		this.cart_itemRepository.save(cart_item);
 		return cart_item;
+	}
+
+	// 해당 변경사항이 생기면 현재 유저의 카트ID 에 값을 변경해준다.(예외처리 해야함)
+	public Integer updateCount(Integer cart_product_id, int count) {
+		Optional<Cart_item> findId = cart_itemRepository.findById(cart_product_id);
+
+		if (findId.isPresent()) {
+			Cart_item cart_item = findId.get();
+			cart_item.setCount(count); // 값을 수정
+			cart_itemRepository.save(cart_item);
+		} else {
+			return 2; //실패 2
+		}
+		return 1; //성공 1
 	}
 
 }
