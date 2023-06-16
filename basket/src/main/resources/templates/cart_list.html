@@ -26,13 +26,10 @@
 				<tr th:each="cartItem : ${cartItemList}"
 					th:if="${cartItem.cart.cart_id == cartUser}" scope="row">
 
-					<!-- <td th:text="${cartItem.cart_product_id}" class="cart_product_id"></td> -->
 
-					<!-- 체크박스를 누르던 말던 데이터 값에 저장되는게 변함히 없어야 한다. -->
 					<td><input type="checkbox"
-						th:value="${cartItem.cart_product_id}" class="checkBox"
-						name="product_check"> <span
-						th:text="${cartItem.cart_product_id}" class="cart_product_id"></span>
+						th:value="${cartItem.cart_product_id}"  class="cart_product_id"
+						name="product_check"> 
 					</td>
 
 
@@ -79,30 +76,19 @@
 								var count = $(this).val();
 								var row = $(this).closest('tr');
 
+								/* price */
 								var priceElement = row.find('.price');
 								var priceText = priceElement.text();
 								var price = parseInt(priceText.replace(
 										/[^0-9.-]+/g, ""));
 
+								/* cart_product_id */
 								var cartElement = row.find('.cart_product_id');
-								var cart_product_id = cartElement.text();
+								var cart_product_id = cartElement.val();
+								
 
-								/* 코드 확인용 */
-								var check = row.find('.checkBox');
-								var checkVal = check.val();
-								console.log(checkVal);
-								console.log(typeof checkVal); /* String */
-								console.log(typeof cart_product_id + "확인"); /* String */
-								/* 코드 확인 끝 */
-
-								
-								
-								
-								
-								
 								/* 클릭 이벤트 발생 시 TotalPrice 변경*/
 								totalPrice(); 
-								
 								
 								
 								/* 토큰 권한 설정 */
