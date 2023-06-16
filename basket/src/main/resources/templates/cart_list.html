@@ -28,9 +28,8 @@
 
 
 					<td><input type="checkbox"
-						th:value="${cartItem.cart_product_id}"  class="cart_product_id"
-						name="product_check"> 
-					</td>
+						th:value="${cartItem.cart_product_id}" class="cart_product_id"
+						name="product_check"></td>
 
 
 					<td th:text="${cartItem.product.product_name}" class="product_name"></td>
@@ -77,20 +76,16 @@
 								var row = $(this).closest('tr');
 
 								/* price */
-								var priceElement = row.find('.price');
-								var priceText = priceElement.text();
-								var price = parseInt(priceText.replace(
-										/[^0-9.-]+/g, ""));
+								var price = parseInt(row.find('.price').text()
+										.replace(/[^0-9.-]+/g, ""));
 
 								/* cart_product_id */
-								var cartElement = row.find('.cart_product_id');
-								var cart_product_id = cartElement.val();
-								
+								var cart_product_id = row.find(
+										'.cart_product_id').val();
 
 								/* 클릭 이벤트 발생 시 TotalPrice 변경*/
-								totalPrice(); 
-								
-								
+								totalPrice();
+
 								/* 토큰 권한 설정 */
 								var header = $("meta[name='_csrf_header']")
 										.attr('content');
@@ -116,17 +111,17 @@
 												var totalPriceElement = row
 														.find('.totalPrice'); // 해당 행의 totalPrice 엘리먼트 선택
 												var totalPrice = count * price;
-												totalPriceElement
-														.text(totalPrice); // 값을 변경하여 출력
+
+												// 값을 변경하여 출력
 												totalPriceElement
 														.text(totalPrice
 																.toString()
 																.replace(
 																		/\B(?=(\d{3})+(?!\d))/g,
-																		",")); // 값을 변경하여 출력
+																		","));
 												console.log('AJAX 요청 성공');
 												console.log(result);
-												
+
 											},
 											error : function(xhr, status, error) {
 												// 요청 실패 시 실행할 코드
@@ -163,23 +158,51 @@
 
 			}
 
-		
 			/* 체크 박스 선택시 적용할 이벤트() */
-			/* $('.cart_product_id').on('change', function() {
-						if ($(this).is(':checked')) {
-							var cartProductId = $(this).val();
+			$('.cart_product_id').on(
+					'change',
+					function() {
+						var total = 0;
+						$('.cart_product_id').each(
+								function() {
+									if ($(this).is(':checked')) { /* 체크상태가 된다면 */
+										var cart_product_id = $(this).val();
+										/* 그런데 결국 금액만 가져와서 더하면 되는것 아닌가? */
+										var row = $(this).closest('tr');
+										var count = row.find('.count').val();
 
-							console.log('선택된 상품 ID:', cartProductId);
-						} else {
-							// 선택 해제된 상품의 처리를 수행
-						}
-					}); */
- 
+										var price = parseInt(row.find('.price')
+												.text().replace(/[^0-9.-]+/g,
+														""));
+
+										total += price * count;
+
+										console.log(count);
+										console.log(cart_product_id);
+										console.log(price);
+
+									} else {
+										/* 다시 불러오도록 설정 (이벤트 헨들러 제거는 안댐. 다시 실행 불가. reload불가 다시 안옴 = 재시작 할 때 값을 가져오기 때문) */
+										function reTotalPrice() {
+
+											$('.totalPrice').load(
+													location.href
+															+ ' .totalPrice'); /* 공백필요 */
+										}
+										// 함수 호출
+										totalPrice();
+									}
+
+									// 총 합계 출력
+									$('#totalProductPrice').text(
+											total.toString().replace(
+													/\B(?=(\d{3})+(?!\d))/g,
+													","));
+
+								});
+					});
+
 		});
-		 
-		
-		
-		
 	</script>
 
 
