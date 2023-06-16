@@ -15,7 +15,7 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th scope="col">장바구니이름</th>
+					<th scope="col">상품선택</th>
 					<th scope="col">상품</th>
 					<th scope="col">상품 갯수</th>
 					<th scope="col">상품금액</th>
@@ -25,10 +25,15 @@
 			<tbody>
 				<tr th:each="cartItem : ${cartItemList}"
 					th:if="${cartItem.cart.cart_id == cartUser}" scope="row">
-					
-					
-					
-					<td th:text="${cartItem.cart_product_id}" class="cart_product_id"></td>
+
+					<!-- <td th:text="${cartItem.cart_product_id}" class="cart_product_id"></td> -->
+
+					<!-- 체크박스를 누르던 말던 데이터 값에 저장되는게 변함히 없어야 한다. -->
+					<td><input type="checkbox"
+						th:value="${cartItem.cart_product_id}" class="checkBox"
+						name="product_check"> <span
+						th:text="${cartItem.cart_product_id}" class="cart_product_id"></span>
+					</td>
 
 
 					<td th:text="${cartItem.product.product_name}" class="product_name"></td>
@@ -82,6 +87,24 @@
 								var cartElement = row.find('.cart_product_id');
 								var cart_product_id = cartElement.text();
 
+								/* 코드 확인용 */
+								var check = row.find('.checkBox');
+								var checkVal = check.val();
+								console.log(checkVal);
+								console.log(typeof checkVal); /* String */
+								console.log(typeof cart_product_id + "확인"); /* String */
+								/* 코드 확인 끝 */
+
+								
+								
+								
+								
+								
+								/* 클릭 이벤트 발생 시 TotalPrice 변경*/
+								totalPrice(); 
+								
+								
+								
 								/* 토큰 권한 설정 */
 								var header = $("meta[name='_csrf_header']")
 										.attr('content');
@@ -117,6 +140,7 @@
 																		",")); // 값을 변경하여 출력
 												console.log('AJAX 요청 성공');
 												console.log(result);
+												
 											},
 											error : function(xhr, status, error) {
 												// 요청 실패 시 실행할 코드
@@ -127,6 +151,7 @@
 
 							});
 
+			//총 합계의 값을 출력한다. 
 			function totalPrice() {
 				var total = 0;
 				$('.totalPrice').each(
@@ -152,7 +177,23 @@
 
 			}
 
+		
+			/* 체크 박스 선택시 적용할 이벤트() */
+			/* $('.cart_product_id').on('change', function() {
+						if ($(this).is(':checked')) {
+							var cartProductId = $(this).val();
+
+							console.log('선택된 상품 ID:', cartProductId);
+						} else {
+							// 선택 해제된 상품의 처리를 수행
+						}
+					}); */
+ 
 		});
+		 
+		
+		
+		
 	</script>
 
 
