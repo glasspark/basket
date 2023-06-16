@@ -64,18 +64,6 @@ public class Cart_item_Controller {
 		}
 	}
 
-	/*
-	 * @PostMapping("/updateCount") public ResponseEntity<Integer>
-	 * updateCount(@RequestParam("cartItemId") Integer cartItemId,
-	 * 
-	 * @RequestParam("newCount") int count) {
-	 * 
-	 * int result = 1; return ResponseEntity.ok(result);
-	 * 
-	 * // 응답 생성 return ResponseEntity.ok("Quantity updated successfully");
-	 * 
-	 * }
-	 */
 
 	@PostMapping("/updateCount")
 	public ResponseEntity<Integer> updateCount(@RequestParam("cart_product_id") Integer cart_product_id,

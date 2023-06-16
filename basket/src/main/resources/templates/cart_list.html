@@ -11,8 +11,8 @@
 		</h1>
 		<hr>
 		<h3>장바구니 목록</h3>
-		<!-- class="table" -->
-		<table>
+		<!--  -->
+		<table class="table">
 			<thead>
 				<tr>
 					<th scope="col">장바구니이름</th>
@@ -25,12 +25,15 @@
 			<tbody>
 				<tr th:each="cartItem : ${cartItemList}"
 					th:if="${cartItem.cart.cart_id == cartUser}" scope="row">
-
+					
+					
+					
 					<td th:text="${cartItem.cart_product_id}" class="cart_product_id"></td>
+
 
 					<td th:text="${cartItem.product.product_name}" class="product_name"></td>
 
-					<td><input type="number" th:value="${cartItem.count}"
+					<td><input type="number" th:value="${cartItem.count}" min="1"
 						class="count"></td>
 
 					<td
@@ -38,12 +41,19 @@
 						class="price"></td>
 
 					<td class="totalPrice"></td>
-					<!-- 					<td
-						th:text="${#numbers.formatInteger((cartItem.count * cartItem.product.price), 4, 'COMMA')}"></td> -->
+
 				</tr>
 			</tbody>
 		</table>
 	</div>
+
+	<div>
+		<h3>Total Price</h3>
+		<!-- 전체 총 금액의 합계 -->
+		<b><p id="totalProductPrice"></p></b>
+	</div>
+
+
 
 	<!-- Cart_item_Controller 예외처리 추후 수정필요 -->
 	<script th:if="${errorMessage != null}">
@@ -52,55 +62,99 @@
 	</script>
 
 
-
 	<script>
 		$(function() {
-			$('.count').on('change', function() {
-				var count = $(this).val();
-				var row = $(this).closest('tr');
 
-				var priceElement = row.find('.price');
-				var priceText = priceElement.text();
-				var price = parseInt(priceText.replace(/[^0-9.-]+/g, ""));
+			totalPrice(); //페이지 로드시 자동으로 생성
 
-				var cartElement = row.find('.cart_product_id');
-				var cart_product_id = cartElement.text();
+			$('.count')
+					.on(
+							'change',
+							function() {
+								var count = $(this).val();
+								var row = $(this).closest('tr');
 
-				/* 토큰 권한 설정 */
-				var header = $("meta[name='_csrf_header']").attr('content');
-				var token = $("meta[name='_csrf']").attr('content');
+								var priceElement = row.find('.price');
+								var priceText = priceElement.text();
+								var price = parseInt(priceText.replace(
+										/[^0-9.-]+/g, ""));
 
-				// AJAX 요청 보내기
-				$.ajax({
-					url : '/cart_item/updateCount',
-					method : 'POST',
-					dataType : 'json',
-					data : {
-						"cart_product_id" : cart_product_id,
-						"count" : count
-					},
-					beforeSend : function(xhr) { /* 토큰 먼저 보내고 권한 받아야함 */
-						xhr.setRequestHeader(header, token);
-					},
-					success : function(result) {
-						// 요청 성공 시 실행할 코드
-						var totalPriceElement = row.find('.totalPrice'); // 해당 행의 totalPrice 엘리먼트 선택
-						var totalPrice = count * price;
-						totalPriceElement.text(totalPrice); // 값을 변경하여 출력
+								var cartElement = row.find('.cart_product_id');
+								var cart_product_id = cartElement.text();
 
-						console.log('AJAX 요청 성공');
-						console.log(result);
-					},
-					error : function(xhr, status, error) {
-						// 요청 실패 시 실행할 코드
-						console.log('AJAX 요청 실패');
-						console.log(xhr.responseText);
-					}
-				});
+								/* 토큰 권한 설정 */
+								var header = $("meta[name='_csrf_header']")
+										.attr('content');
+								var token = $("meta[name='_csrf']").attr(
+										'content');
 
-			});
+								// AJAX 요청 보내기
+								$
+										.ajax({
+											url : '/cart_item/updateCount',
+											method : 'POST',
+											dataType : 'json',
+											data : {
+												"cart_product_id" : cart_product_id,
+												"count" : count
+											},
+											beforeSend : function(xhr) { /* 토큰 먼저 보내고 권한 받아야함 */
+												xhr.setRequestHeader(header,
+														token);
+											},
+											success : function(result) {
+												// 요청 성공 시 실행할 코드
+												var totalPriceElement = row
+														.find('.totalPrice'); // 해당 행의 totalPrice 엘리먼트 선택
+												var totalPrice = count * price;
+												totalPriceElement
+														.text(totalPrice); // 값을 변경하여 출력
+												totalPriceElement
+														.text(totalPrice
+																.toString()
+																.replace(
+																		/\B(?=(\d{3})+(?!\d))/g,
+																		",")); // 값을 변경하여 출력
+												console.log('AJAX 요청 성공');
+												console.log(result);
+											},
+											error : function(xhr, status, error) {
+												// 요청 실패 시 실행할 코드
+												console.log('AJAX 요청 실패');
+												console.log(xhr.responseText);
+											}
+										});
+
+							});
+
+			function totalPrice() {
+				var total = 0;
+				$('.totalPrice').each(
+						function() {
+							var row = $(this).closest('tr');
+							var count = parseInt(row.find('.count').val());
+							var price = parseInt(row.find('.price').text()
+									.replace(/[^0-9.-]+/g, ""));
+
+							var cartElement = row.find('.cart_product_id');
+							var cart_product_id = cartElement.text();
+
+							var totalPrice = count * price;
+							$(this).text(
+									totalPrice.toString().replace(
+											/\B(?=(\d{3})+(?!\d))/g, ","));
+							total += totalPrice;
+						});
+
+				// 총 합계 출력
+				$('#totalProductPrice').text(
+						total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+			}
+
 		});
 	</script>
+
 
 
 </div>
