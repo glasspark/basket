@@ -15,7 +15,7 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th scope="col">상품선택</th>
+					<th scope="col"><input type="checkbox" id="checkAll"></th>
 					<th scope="col">상품</th>
 					<th scope="col">상품 갯수</th>
 					<th scope="col">상품금액</th>
@@ -121,7 +121,7 @@
 																		","));
 												console.log('AJAX 요청 성공');
 												console.log(result);
-
+												totalCount();
 											},
 											error : function(xhr, status, error) {
 												// 요청 실패 시 실행할 코드
@@ -132,77 +132,118 @@
 
 							});
 
-			//총 합계의 값을 출력한다. 
-			function totalPrice() {
-				var total = 0;
-				$('.totalPrice').each(
-						function() {
-							var row = $(this).closest('tr');
-							var count = parseInt(row.find('.count').val());
-							var price = parseInt(row.find('.price').text()
-									.replace(/[^0-9.-]+/g, ""));
+		});
 
-							var cartElement = row.find('.cart_product_id');
-							var cart_product_id = cartElement.text();
-
-							var totalPrice = count * price;
-							$(this).text(
-									totalPrice.toString().replace(
-											/\B(?=(\d{3})+(?!\d))/g, ","));
-							total += totalPrice;
-						});
-
-				// 총 합계 출력
-				$('#totalProductPrice').text(
-						total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-
-			}
-
-			/* 체크 박스 선택시 적용할 이벤트() */
-			$('.cart_product_id').on(
-					'change',
+		//총 합계의 값을 출력한다. 
+		function totalPrice() {
+			var total = 0;
+			$('.totalPrice').each(
 					function() {
-						var total = 0;
-						$('.cart_product_id').each(
-								function() {
-									if ($(this).is(':checked')) { /* 체크상태가 된다면 */
-										var cart_product_id = $(this).val();
-										/* 그런데 결국 금액만 가져와서 더하면 되는것 아닌가? */
-										var row = $(this).closest('tr');
-										var count = row.find('.count').val();
+						var row = $(this).closest('tr');
+						var count = parseInt(row.find('.count').val());
+						var price = parseInt(row.find('.price').text().replace(
+								/[^0-9.-]+/g, ""));
 
-										var price = parseInt(row.find('.price')
-												.text().replace(/[^0-9.-]+/g,
-														""));
+						var cartElement = row.find('.cart_product_id');
+						var cart_product_id = cartElement.text();
 
-										total += price * count;
+						var totalPrice = count * price;
+						$(this).text(
+								totalPrice.toString().replace(
+										/\B(?=(\d{3})+(?!\d))/g, ","));
+						total += totalPrice;
+					});
 
-										console.log(count);
-										console.log(cart_product_id);
-										console.log(price);
+			// 총 합계 출력
+			$('#totalProductPrice').text(
+					total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 
-									} else {
-										/* 다시 불러오도록 설정 (이벤트 헨들러 제거는 안댐. 다시 실행 불가. reload불가 다시 안옴 = 재시작 할 때 값을 가져오기 때문) */
-										function reTotalPrice() {
+		}
 
-											$('.totalPrice').load(
-													location.href
-															+ ' .totalPrice'); /* 공백필요 */
-										}
-										// 함수 호출
-										totalPrice();
-									}
+		/* 체크 박스 선택시 적용할 이벤트() */
+		$('.cart_product_id').on(
+				'change',
+				function() {
+					var total = 0;
 
-									// 총 합계 출력
+					var isAllUnchecked = true; // 모든 체크박스가 해제되었는지 여부를 확인하기 위한 변수
+
+					$('.cart_product_id').each(
+							function() { /* 체크상태가 된다면 */
+								if ($(this).is(':checked')) {
+									var cart_product_id = $(this).val();
+
+									var row = $(this).closest('tr');
+									var count = row.find('.count').val();
+
+									var price = parseInt(row.find('.price')
+											.text().replace(/[^0-9.-]+/g, ""));
+
+									total += price * count;
+
+									isAllUnchecked = false;
+
+									console.log("count :" + count);
+
+									console.log("price:" + price);
+
+									console.log("cart_product_id :"
+											+ cart_product_id);
+
+								}
+
+								if (isAllUnchecked) {
+									totalPrice(); // 모든 체크박스가 해제된 경우 전체 금액의 총 합계를 다시 계산하여 표시
+								} else {
 									$('#totalProductPrice').text(
 											total.toString().replace(
 													/\B(?=(\d{3})+(?!\d))/g,
 													","));
+								}
 
-								});
-					});
+							});
 
+				});
+
+		/* 전체 체크 박스 선택/해제 기능 */
+		$('#checkAll').on('change', function() {
+			var isChecked = $(this).is(':checked');
+
+			$('.cart_product_id').prop('checked', isChecked);
+
+			// 체크박스 선택/해제 이벤트 호출
+			$('.cart_product_id').trigger('change');
 		});
+
+		/* 현재 상품들의 갯수의 총 합 */
+		function totalCount() {
+
+			var totalCount = 0;
+			$('.count').each(function() {
+				var count = parseInt($(this).val());
+				console.log("카운트 : " + count);
+				totalCount += count;
+				
+				
+				/* 토큰 권한 설정 */
+				var header = $("meta[name='_csrf_header']")
+						.attr('content');
+				var token = $("meta[name='_csrf']").attr(
+						'content');
+				
+				$.ajax({
+					
+					
+					
+					
+					
+					
+				})
+				
+				
+			});
+			console.log("총 수량은 : " + totalCount);
+		}
 	</script>
 
 
