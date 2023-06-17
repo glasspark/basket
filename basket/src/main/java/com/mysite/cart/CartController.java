@@ -65,7 +65,7 @@ public class CartController {
 		//장바구니 목록에서 갯수 수정
 		int result = this.cartService.addCartCount(user, count);
 
-		return ResponseEntity.ok(result);
+		return ResponseEntity.ok(result); //1 = ok | 0 = false
 	}
 
 }

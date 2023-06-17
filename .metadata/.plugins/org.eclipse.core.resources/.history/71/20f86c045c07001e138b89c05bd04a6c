@@ -1,7 +1,0 @@
-package com.mysite.product;
-
-@Getter
-@Setter
-public class ProductForm {
-
-}

@@ -8,7 +8,7 @@
 			장바구니
 		</h1>
 		<h1>
-			해당 장바구니의 수량은 <span th:text="${cartCount}"></span>개 입니다.
+			해당 장바구니의 수량은 <span th:text="${cartCount}" id="totalUserCount"></span>개 입니다.
 		</h1>
 		<hr>
 		<h3>장바구니 목록</h3>
@@ -245,8 +245,16 @@
 					success : function(result) {
 						// 요청 성공 시 실행할 코드
 
-						console.log('AJAX 요청 성공');
+						/* var totaluu = $('#totalUserCount');
+						totalUserCount = totalCount; */
+
+						 var totalCount = document.getElementById('totalUserCount').innerText;
+						console.log(totalCount);
+ 
+						
+						console.log('count AJAX 요청 성공');
 						console.log(result);
+						console.log(totalUserCount);
 					},
 					error : function(xhr, status, error) {
 						// 요청 실패 시 실행할 코드
@@ -264,14 +272,8 @@
 			console.log(typeof user); //String
 
 		}
-		
-		
+
 		/* 총 totalCount출력 하는 코드 구현  비동기로 출력해야함*/
-		
-		
-		
-		
-		
 	</script>
 
 
