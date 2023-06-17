@@ -4,7 +4,8 @@
 
 	<div>
 		<h1>
-			<span th:text="${username}" style="color: blue;"></span>님의 장바구니
+			<span th:text="${username}" style="color: blue;" id="user"></span>님의
+			장바구니
 		</h1>
 		<h1>
 			해당 장바구니의 수량은 <span th:text="${cartCount}"></span>개 입니다.
@@ -218,32 +219,57 @@
 		/* 현재 상품들의 갯수의 총 합 */
 		function totalCount() {
 
-			var totalCount = 0;
+			var user = $('#user').text(); //String
+
+			var totalCount = 0; //number
 			$('.count').each(function() {
 				var count = parseInt($(this).val());
-				console.log("카운트 : " + count);
 				totalCount += count;
-				
-				
+
 				/* 토큰 권한 설정 */
-				var header = $("meta[name='_csrf_header']")
-						.attr('content');
-				var token = $("meta[name='_csrf']").attr(
-						'content');
-				
+				var header = $("meta[name='_csrf_header']").attr('content');
+				var token = $("meta[name='_csrf']").attr('content');
+
+				// AJAX 요청 보내기
 				$.ajax({
-					
-					
-					
-					
-					
-					
-				})
-				
-				
+					url : '/cart/totalCount',
+					method : 'POST',
+					dataType : 'json',
+					data : {
+						"user" : user,
+						"count" : totalCount
+					},
+					beforeSend : function(xhr) { /* 토큰 먼저 보내고 권한 받아야함 */
+						xhr.setRequestHeader(header, token);
+					},
+					success : function(result) {
+						// 요청 성공 시 실행할 코드
+
+						console.log('AJAX 요청 성공');
+						console.log(result);
+					},
+					error : function(xhr, status, error) {
+						// 요청 실패 시 실행할 코드
+						console.log('AJAX 요청 실패');
+						console.log(xhr.responseText);
+					}
+				});
+
 			});
+
 			console.log("총 수량은 : " + totalCount);
+			console.log(typeof totalCount); //number
+
+			console.log("user 은 : " + user);
+			console.log(typeof user); //String
+
 		}
+		/* 총 totalCount출력 하는 코드 구현 */
+	
+		
+		
+		
+		
 	</script>
 
 

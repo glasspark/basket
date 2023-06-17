@@ -21,9 +21,9 @@ public class CartService {
 
 	}
 
-	//user의 카트 번호를 가져온다. 
+	// user의 카트 번호를 가져온다.
 	public Integer getCartIdByUsername(User user) {
-		Optional<Cart> cart = cartRepository.findByUser(user); 
+		Optional<Cart> cart = cartRepository.findByUser(user);
 		if (cart.isPresent()) {
 			return cart.get().getCart_id();
 		}
@@ -35,8 +35,8 @@ public class CartService {
 		return cartRepository.findById(userID).orElse(null);
 	}
 
-	//유저의 카트 생성
-	public void addCart(User user, int count) {
+	// 유저의 카트 생성
+	public Integer addCart(User user, int count) {
 
 		// 카트에 해당 유저의 아이디가 있는지 확인
 		Optional<Cart> findCart = cartRepository.findByUser(user);
@@ -53,6 +53,6 @@ public class CartService {
 			cart.setCount(cart.getCount() + count);// 수량 추가
 			this.cartRepository.save(cart); // 저장
 		}
-
+		return 1;
 	}
 }

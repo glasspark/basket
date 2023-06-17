@@ -4,10 +4,13 @@ package com.mysite.cart;
 */
 import java.security.Principal;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mysite.cart_item.Cart_item_Service;
 import com.mysite.product.Product;
@@ -30,7 +33,7 @@ public class CartController {
 	@GetMapping(value = "/addCart/{product_id}/{requestedQuantity}")
 	public String addCart(@PathVariable("product_id") Long product_id,
 			@PathVariable("requestedQuantity") Integer requestedQuantity, Principal principal) {
-		
+
 		Product product = this.productService.getProduct(product_id); // 제품 아이디 가져온다.
 		int count = requestedQuantity;
 		String username = principal.getName(); // 유저의 이름을 가져온다.
@@ -42,7 +45,7 @@ public class CartController {
 
 		// cart에 담겨져 있는 유저의 user_id값을 가져온다.
 		Integer cartUser = this.cartService.getCartIdByUsername(user);
-		
+
 		// 해당 user_id의 cart_id를 가져온다.
 		Cart CartId = this.cartService.getUserCartId(cartUser);
 
@@ -51,6 +54,17 @@ public class CartController {
 
 		return "redirect:/product/list";
 
+	}
+
+	@PostMapping("/totalCount")
+	public ResponseEntity<Integer> totalCount(@RequestParam("user") String username, @RequestParam("count") int count) {
+
+		// 가져온 username으로 해당 user가 있는지 없는지 확인한다.
+		User user = this.userService.getUserIdByUsername(username);
+
+		int result = this.cartService.addCart(user, count);
+
+		return ResponseEntity.ok(result);
 	}
 
 }
