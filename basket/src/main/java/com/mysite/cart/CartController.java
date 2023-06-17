@@ -62,7 +62,8 @@ public class CartController {
 		// 가져온 username으로 해당 user가 있는지 없는지 확인한다.
 		User user = this.userService.getUserIdByUsername(username);
 
-		int result = this.cartService.addCart(user, count);
+		//이건 추가하는 거라서 안되고 수정하는 service따로 설정해야할듯요..
+		int result = this.cartService.addCartCount(user, count);
 
 		return ResponseEntity.ok(result);
 	}

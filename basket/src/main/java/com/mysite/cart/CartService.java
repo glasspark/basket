@@ -55,4 +55,27 @@ public class CartService {
 		}
 		return 1;
 	}
+	
+	
+	//유저 장바구니 값을 변경
+	public Integer addCartCount(User user, int count) {
+
+		// 카트에 해당 유저의 아이디가 있는지 확인
+		Optional<Cart> findCart = cartRepository.findByUser(user);
+
+		// 만약 유저에게 장바구니가 존재하지 않는다면 생성해준다.
+		if (findCart.isPresent()) {
+			Cart cart = findCart.get();
+			cart.setCount(count);// 수량 추가
+			this.cartRepository.save(cart); // 저장 // 저장
+		} else {
+			return 0;
+		}
+		return 1;
+	}
+	
+	
+	
+	
+	
 }
