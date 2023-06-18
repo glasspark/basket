@@ -223,52 +223,47 @@
 			var user = $('#user').text(); //String
 
 			var totalCount = 0; //number
-			$('.count')
-					.each(
-							function() {
-								var count = parseInt($(this).val());
-								totalCount += count;
+			$('.count').each(
+					function() {
+						var count = parseInt($(this).val());
+						totalCount += count;
 
-								/* 토큰 권한 설정 */
-								var header = $("meta[name='_csrf_header']")
-										.attr('content');
-								var token = $("meta[name='_csrf']").attr(
-										'content');
+						/* 토큰 권한 설정 */
+						var header = $("meta[name='_csrf_header']").attr(
+								'content');
+						var token = $("meta[name='_csrf']").attr('content');
 
-								// AJAX 요청 보내기
-								$
-										.ajax({
-											url : '/cart/totalCount',
-											method : 'POST',
-											dataType : 'json',
-											data : {
-												"user" : user,
-												"count" : totalCount
-											},
-											beforeSend : function(xhr) { /* 토큰 먼저 보내고 권한 받아야함 */
-												xhr.setRequestHeader(header,
-														token);
-											},
-											success : function(result) {
-												// 요청 성공 시 실행할 코드
+						// AJAX 요청 보내기
+						$.ajax({
+							url : '/cart/totalCount',
+							method : 'POST',
+							dataType : 'json',
+							data : {
+								"user" : user,
+								"count" : totalCount
+							},
+							beforeSend : function(xhr) { /* 토큰 먼저 보내고 권한 받아야함 */
+								xhr.setRequestHeader(header, token);
+							},
+							success : function(result) {
+								// 요청 성공 시 실행할 코드
 
-												var totalCount = document
-														.getElementById('totalUserCount').innerText;
-												console.log("totalCount : "
-														+ totalCount);
+								// cartCount 값을 totalUserCount 요소에 반영
+								var totalUserCount = $("#totalUserCount").text(
+										totalCount);
 
-												console.log('count AJAX 요청 성공');
-												console.log(result);
-												console.log(totalUserCount);
-											},
-											error : function(xhr, status, error) {
-												// 요청 실패 시 실행할 코드
-												console.log('AJAX 요청 실패');
-												console.log(xhr.responseText);
-											}
-										});
+								console.log('count AJAX 요청 성공');
+								console.log(result);
 
-							});
+							},
+							error : function(xhr, status, error) {
+								// 요청 실패 시 실행할 코드
+								console.log('AJAX 요청 실패');
+								console.log(xhr.responseText);
+							}
+						});
+
+					});
 
 			console.log("총 수량은 : " + totalCount);
 			console.log(typeof totalCount); //number
@@ -278,7 +273,6 @@
 
 		}
 
-		/* 총 totalCount출력 하는 코드 구현  비동기로 출력해야함*/
 	</script>
 
 
