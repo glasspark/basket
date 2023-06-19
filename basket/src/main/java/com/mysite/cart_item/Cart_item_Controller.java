@@ -64,13 +64,21 @@ public class Cart_item_Controller {
 		}
 	}
 
-
 	@PostMapping("/updateCount")
 	public ResponseEntity<Integer> updateCount(@RequestParam("cart_product_id") Integer cart_product_id,
 			@RequestParam("count") int count) {
 
-		//해당 카트 아이템에 count,cart_product_id 를 넣는다.
+		// 해당 카트 아이템에 count,cart_product_id 를 넣는다.
 		int result = this.cart_item_Service.updateCount(cart_product_id, count);
+
+		return ResponseEntity.ok(result);
+	}
+
+	@PostMapping("/deleteCartItem")
+	public ResponseEntity<Integer> deleteCartItem(@RequestParam("cart_product_id") Integer cart_product_id) {
+
+		// cart_item_Service에 해당하는 상품을 삭제할 수 있도록 기능 구현
+		int result = this.cart_item_Service.deleteCartItem(cart_product_id);
 
 		return ResponseEntity.ok(result);
 	}

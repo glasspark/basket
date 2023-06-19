@@ -56,9 +56,22 @@ public class Cart_item_Service {
 			cart_item.setCount(count); // 값을 수정
 			cart_itemRepository.save(cart_item);
 		} else {
-			return 2; //실패 2
+			return 2; // 실패 2
 		}
-		return 1; //성공 1
+		return 1; // 성공 1
+	}
+
+	public Integer deleteCartItem(Integer cart_product_id) {
+		Optional<Cart_item> findId = cart_itemRepository.findById(cart_product_id);
+
+		if (findId.isPresent()) {
+			Cart_item cart_item = findId.get();
+			cart_itemRepository.delete(cart_item);
+		} else {
+			return 2; // 실패 2
+		}
+		return 1; // 성공 1
+
 	}
 
 }
