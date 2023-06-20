@@ -1,0 +1,55 @@
+<html layout:decorate="~{layout}">
+
+<div layout:fragment="content" class="container my-3">
+
+	<h2>상품등록</h2>
+
+
+
+	<form th:action="@{/product/addproduct}" method="post" enctype="multipart/form-data">
+
+
+		<div class="mb-3">
+
+			<label for="img_url" class="form-label">상품이미지</label> <input
+				type="file" class="form-control" name="img_url">
+		</div>
+
+
+		<div class="mb-3">
+			<label for="product_name" class="form-label">상품이름</label> <input
+				type="text" class="form-control" name="product_name">
+		</div>
+
+
+		<div class="mb-3">
+			<label for="product_detal" class="form-label">상품설명</label> <input
+				type="text" class="form-control" name="product_detal">
+		</div>
+
+
+		<div class="mb-3">
+			<label for="product_sell_status" class="form-label">판매상태</label> <input
+				type="number" class="form-control" name="product_sell_status">
+		</div>
+
+
+		<div class="mb-3">
+			<label for="price" class="form-label">상품가격</label> <input
+				type="number" class="form-control" name="price">
+		</div>
+
+
+		<div class="mb-3">
+			<label for="stack" class="form-label">상품재고</label> <input
+				type="number" class="form-control" name="stack">
+		</div>
+
+
+		<button type="submit" class="btn btn-primary">상품등록</button>
+
+	</form>
+
+
+</div>
+</html>

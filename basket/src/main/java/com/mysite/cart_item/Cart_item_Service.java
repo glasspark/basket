@@ -61,6 +61,11 @@ public class Cart_item_Service {
 		return 1; // 성공 1
 	}
 
+	
+	
+	
+	
+	//cart에 담겨져 있는 아이템들을 삭제
 	public Integer deleteCartItem(Integer cart_product_id) {
 		Optional<Cart_item> findId = cart_itemRepository.findById(cart_product_id);
 
@@ -70,7 +75,7 @@ public class Cart_item_Service {
 		} else {
 			return 2; // 실패 2
 		}
-		return 1; // 성공 1
+		return null; // 성공 1
 
 	}
 

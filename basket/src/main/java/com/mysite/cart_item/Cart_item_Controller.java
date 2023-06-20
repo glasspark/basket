@@ -74,12 +74,24 @@ public class Cart_item_Controller {
 		return ResponseEntity.ok(result);
 	}
 
+	// 장바구니에서 해당 상품을 삭제하기 누르게 되면 상품이 삭제
 	@PostMapping("/deleteCartItem")
 	public ResponseEntity<Integer> deleteCartItem(@RequestParam("cart_product_id") Integer cart_product_id) {
 
-		// cart_item_Service에 해당하는 상품을 삭제할 수 있도록 기능 구현
 		int result = this.cart_item_Service.deleteCartItem(cart_product_id);
 
+		return ResponseEntity.ok(result);
+	}
+
+	// 장바구니에서 해당 상품을 삭제하기 누르게 되면 상품이 삭제 (int로 변경해야하는데)
+	// value = "allCheckItems[]" 이 부분이 중요..!! (여기로 값을 보낼때 배열 처리 제대로 확인해서 보내기)
+	@PostMapping("/allDeleate")
+	public ResponseEntity<Integer> allDeleate(@RequestParam(value = "checkItems[]") List<String> checkItems) {
+		int result = 0;
+		for (String item : checkItems) {
+			int cart_product_id = Integer.parseInt(item);
+			result = this.cart_item_Service.deleteCartItem(cart_product_id);
+		}
 		return ResponseEntity.ok(result);
 	}
 

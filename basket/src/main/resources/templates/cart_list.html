@@ -55,9 +55,17 @@
 	</div>
 
 	<div>
+		<button id="selectDeleate">선택 삭제</button>
+		<hr>
+	</div>
+
+
+	<div>
 		<h3>Total Price</h3>
 		<!-- 전체 총 금액의 합계 -->
 		<b><p id="totalProductPrice"></p></b>
+		<!-- 추후 주문하기 버튼을 만들 때 버튼 체크 여부확인해서 주문하기 버튼 클릭 =>1.체크된 부분만 주문 2.기본(전체)주문 if-else문으로 처리 -->
+		<b>주문하기</b>
 	</div>
 
 
@@ -73,7 +81,6 @@
 		$(function() {
 
 			totalPrice(); //페이지 로드시 자동으로 생성
-
 			$('.count')
 					.on(
 							'change',
@@ -166,7 +173,7 @@
 
 		}
 
-		/* 체크 박스 선택시 적용할 이벤트() */
+		/* 체크 박스 선택시 적용할 이벤트(totalPrice가 변경이 된다.) */
 		$('.cart_product_id').on(
 				'change',
 				function() {
@@ -188,13 +195,6 @@
 									total += price * count;
 
 									isAllUnchecked = false;
-
-									console.log("count :" + count);
-
-									console.log("price:" + price);
-
-									console.log("cart_product_id :"
-											+ cart_product_id);
 
 								}
 
@@ -256,7 +256,7 @@
 								var totalUserCount = $("#totalUserCount").text(
 										totalCount);
 
-								console.log('count AJAX 요청 성공');
+								console.log('totalCount AJAX 요청 성공');
 								console.log(result);
 
 							},
@@ -269,17 +269,9 @@
 
 					});
 
-			console.log("총 수량은 : " + totalCount);
-			console.log(typeof totalCount); //number
-
-			console.log("user 은 : " + user);
-			console.log(typeof user); //String
-
 		}
-		
-		
-		
 
+		//단품 삭제하기
 		function deleteCartItem(element) {
 
 			// 클릭된 요소의 부모 요소인 <tr>을 찾음
@@ -288,14 +280,10 @@
 			/* cart_product_id */
 			var cart_product_id = $(row).find('.cart_product_id').val();
 
-			
 			/* 토큰 권한 설정 */
-			var header = $("meta[name='_csrf_header']")
-					.attr('content');
-			var token = $("meta[name='_csrf']").attr(
-					'content');
-			
-			
+			var header = $("meta[name='_csrf_header']").attr('content');
+			var token = $("meta[name='_csrf']").attr('content');
+
 			// AJAX 요청 보내기
 			$.ajax({
 				url : '/cart_item/deleteCartItem',
@@ -313,10 +301,8 @@
 					//해당 row를 삭제
 					row.parentNode.removeChild(row);
 					totalCount();
-			
-					
-					
-					console.log('AJAX 요청 성공');
+
+					console.log('deleteCartItem AJAX 요청 성공');
 					console.log(result);
 				},
 				error : function(xhr, status, error) {
@@ -326,13 +312,72 @@
 				}
 			});
 
-			console.log("=============");
-			console.log("row : " + row); //삭제하기 object HTMLTableRowElement
-			console.log("cart_product_id : " + cart_product_id); //해당 PK id 출력
-			console.log("=============");
 		}
-		
-		
+
+		//이곳에서 체크된 값만 가져오기 (이걸로 선택 삭제, 선택 수정 기능 구현하기)
+		//1. 체크된 id의 배열을 가져오기
+
+		function findSelect() {
+
+			var checkItems = [];
+
+			$('.cart_product_id').each(function() {
+				if ($(this).is(':checked')) {
+					var row = $(this).closest('tr');
+					var cart_product_id = row.find('.cart_product_id').val();
+
+					// checkItems 배열에 추가
+					checkItems.push(cart_product_id);
+				}
+			});
+
+			return checkItems; //체크된 벼열의 값을 반환해준다.
+		}
+
+		//클릭시 해당 이벤트 발생(선택삭제 부분)
+		$('#selectDeleate').on('click', function() {
+
+			var checkItems = findSelect(); // checkItems 함수 호출하여 선택된 항목 배열 반환
+
+			console.log("checkItems");
+			console.log(checkItems);
+
+			//AJAX 코드 넣기
+			/* 토큰 권한 설정 */
+			var header = $("meta[name='_csrf_header']").attr('content');
+			var token = $("meta[name='_csrf']").attr('content');
+
+			// AJAX 요청 보내기
+
+			// AJAX 요청 보내기
+			$.ajax({
+				url : '/cart_item/allDeleate',
+				method : 'POST',
+				dataType : 'json',
+				data : {
+					"checkItems" : checkItems,
+				},
+				beforeSend : function(xhr) { /* 토큰 먼저 보내고 권한 받아야함 */
+					xhr.setRequestHeader(header, token);
+				},
+				success : function(result) {
+					// 요청 성공 시 실행할 코드
+
+					console.log('deleteCartItem AJAX 요청 성공');
+					console.log(result);
+				},
+				error : function(xhr, status, error) {
+					// 요청 실패 시 실행할 코드
+					console.log('AJAX 요청 실패');
+					console.log(xhr.responseText);
+				}
+			});
+
+			if (checkItems.length === 0) {
+				alert("선택된 항목이 없습니다."); // 체크된 항목이 없을 때 알림창 표시
+			}
+
+		})
 	</script>
 
 
