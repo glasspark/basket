@@ -34,6 +34,7 @@ public class ProductController {
 	public String detail(Model model, @PathVariable("product_id") Long product_id) {
 		Product product = this.productService.getProduct(product_id);
 
+		//해당 상품의 이미지 url 찾음
 		ProductImg img = this.productService.getImg(product);
 
 		model.addAttribute("img", img);
